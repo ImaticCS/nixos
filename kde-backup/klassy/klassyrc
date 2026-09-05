@@ -4,3 +4,9 @@ RefreshedConfig=6.5.3
 
 [Windeco]
 ButtonIconStyle=StyleSuessigKite
+ColorizeWindowOutlineWithButton=false
+WindowCornerRadius=12
+
+[WindowOutlineStyle]
+WindowOutlineAccentColorOpacityActive=40
+WindowOutlineStyleActive=WindowOutlineAccentColor
