@@ -23,4 +23,7 @@
     #  lookAndFeel = "org.kde.breeze.desktop";
     #};
   };
+
+  xdg.configFile."klassy/klassyrc".source =
+    ./kde-backup/klassy/klassyrc;
 }
