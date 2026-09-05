@@ -2,9 +2,15 @@
 LookAndFeelSet=org.kde.klassykitedarkbottompanel.desktop
 RefreshedConfig=6.5.3
 
+[TitleBarOpacity]
+ActiveTitleBarOpacity=60
+InactiveTitleBarOpacity=40
+OverrideActiveTitleBarOpacity=true
+
 [Windeco]
 ButtonIconStyle=StyleSuessigKite
 ColorizeWindowOutlineWithButton=false
+DrawTitleBarSeparator=false
 WindowCornerRadius=12
 
 [WindowOutlineStyle]
