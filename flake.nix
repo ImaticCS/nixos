@@ -69,26 +69,5 @@
           }
         ];
       };
-
-      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-        inherit system;
-
-        specialArgs = {
-          inherit pkgs-unstable mpv-src nix-cachyos-kernel;
-        };
-
-        modules = [
-          ./hosts/desktop
-
-          nix-index-database.nixosModules.default
-          home-manager.nixosModules.home-manager
-
-          {
-            home-manager.extraSpecialArgs = {
-              inherit plasma-manager;
-            };
-          }
-        ];
-      };
     };
 }
