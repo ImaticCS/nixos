@@ -15,6 +15,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/base.nix
     ../../modules/audio
     ../../modules/desktop/plasma.nix
     ../../modules/vm/vmware.nix
@@ -31,53 +32,11 @@
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Australia/Sydney";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_AU.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_AU.UTF-8";
-    LC_IDENTIFICATION = "en_AU.UTF-8";
-    LC_MEASUREMENT = "en_AU.UTF-8";
-    LC_MONETARY = "en_AU.UTF-8";
-    LC_NAME = "en_AU.UTF-8";
-    LC_NUMERIC = "en_AU.UTF-8";
-    LC_PAPER = "en_AU.UTF-8";
-    LC_TELEPHONE = "en_AU.UTF-8";
-    LC_TIME = "en_AU.UTF-8";
-  };
-
   # Enable CUPS to print documents.
   services.printing.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users."imatic" = {
-    isNormalUser = true;
-    description = "imatic";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    packages = with pkgs; [
-      #  kdePackages.kate
-      #  thunderbird
-    ];
-  };
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -112,10 +71,6 @@
     jq
   ];
 
-  fonts.packages = with pkgs; [
-    inter
-  ];
-
   # Necessary exception for Sublime Text
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1w"
@@ -127,14 +82,6 @@
     NIX_SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
   };
 
-  environment.localBinInPath = true;
-
-  # For managing tools with UV.
-  programs.nix-ld.enable = true;
-
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = false;
-  zramSwap.enable = true;
   nix.settings = {
     auto-optimise-store = true;
     experimental-features = [
