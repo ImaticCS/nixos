@@ -6,6 +6,8 @@
   config,
   pkgs,
   pkgs-unstable,
+  mpv-src,
+  nix-cachyos-kernel,
   ...
 }:
 
@@ -20,7 +22,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-zen4;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -80,6 +83,34 @@
 
     # Use the WirePlumber session manager
     #wireplumber.enable = true;
+
+    extraConfig.pipewire."90-vm-buffer" = {
+      "context.properties" = {
+        "default.clock.quantum" = 256;
+        "default.clock.min-quantum" = 256;
+        "default.clock.max-quantum" = 512;
+      };
+    };
+
+    wireplumber.extraConfig."90-vmware-audio" = {
+      "monitor.alsa.rules" = [
+        {
+          matches = [
+            {
+              "node.name" = "~alsa_output.*";
+            }
+          ];
+
+          actions = {
+            "update-props" = {
+              "api.alsa.period-size" = 512;
+              "api.alsa.headroom" = 1024;
+              "api.alsa.disable-tsched" = true;
+            };
+          };
+        }
+      ];
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -109,7 +140,9 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
 
   nixpkgs.overlays = [
-    (import ./overlays/mpv-git.nix pkgs-unstable)
+    (import ./overlays/mpv-git.nix pkgs-unstable mpv-src)
+    (import ./overlays/faugus-launcher.nix pkgs-unstable)
+    nix-cachyos-kernel.overlays.pinned
   ];
 
   environment.systemPackages = with pkgs; [
@@ -117,11 +150,8 @@
     git
     gnumake
     micro
-    fastfetch
     mpv-git
     sublime4
-    klassy
-    pkgs-unstable.plasma-panel-colorizer
     uv
     nh
     nix-tree
@@ -153,6 +183,10 @@
     baloo-widgets
   ];
 
+  fonts.packages = with pkgs; [
+    inter
+  ];
+
   # Necessary exception for Sublime Text
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1w"
@@ -171,12 +205,19 @@
 
   virtualisation.vmware.guest.enable = true;
   hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = false;
   zramSwap.enable = true;
   nix.settings = {
     auto-optimise-store = true;
     experimental-features = [
       "nix-command"
       "flakes"
+    ];
+    substituters = [
+      "https://attic.xuyh0120.win/lantian"
+    ];
+    trusted-public-keys = [
+      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
     ];
   };
 

@@ -14,6 +14,8 @@
 
   home.packages = with pkgs; [
     htop
+    klassy
+    fastfetch
   ];
 
   programs.plasma = {
