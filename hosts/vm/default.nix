@@ -193,8 +193,12 @@
     ];
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.users.imatic = import ../../home.nix;
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+
+    users.imatic = import ../../home.nix;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
