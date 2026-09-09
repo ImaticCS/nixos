@@ -140,8 +140,8 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
 
   nixpkgs.overlays = [
-    (import ./overlays/mpv-git.nix pkgs-unstable mpv-src)
-    (import ./overlays/faugus-launcher.nix pkgs-unstable)
+    (import ../../overlays/mpv-git.nix pkgs-unstable mpv-src)
+    (import ../../overlays/faugus-launcher.nix pkgs-unstable)
     nix-cachyos-kernel.overlays.pinned
   ];
 
@@ -222,7 +222,7 @@
   };
 
   home-manager.useGlobalPkgs = true;
-  home-manager.users.imatic = import ./home.nix;
+  home-manager.users.imatic = import ../../home.nix;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
