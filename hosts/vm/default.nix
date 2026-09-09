@@ -16,6 +16,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/audio
+    ../../modules/desktop/plasma.nix
     ../../modules/vm/vmware.nix
   ];
 
@@ -53,20 +54,6 @@
     LC_PAPER = "en_AU.UTF-8";
     LC_TELEPHONE = "en_AU.UTF-8";
     LC_TIME = "en_AU.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "au";
-    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -123,23 +110,6 @@
     nurl
     nix-prefetch-github
     jq
-  ];
-
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    elisa
-    kate
-    ktexteditor
-    khelpcenter
-    discover
-    gwenview
-    okular
-    qrca
-    plasma-keyboard
-    qtvirtualkeyboard
-    krdp
-    ffmpegthumbs
-    dolphin-plugins
-    baloo-widgets
   ];
 
   fonts.packages = with pkgs; [
