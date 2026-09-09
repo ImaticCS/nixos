@@ -15,6 +15,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/vm/vmware.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -83,34 +84,6 @@
 
     # Use the WirePlumber session manager
     #wireplumber.enable = true;
-
-    extraConfig.pipewire."90-vm-buffer" = {
-      "context.properties" = {
-        "default.clock.quantum" = 256;
-        "default.clock.min-quantum" = 256;
-        "default.clock.max-quantum" = 512;
-      };
-    };
-
-    wireplumber.extraConfig."90-vmware-audio" = {
-      "monitor.alsa.rules" = [
-        {
-          matches = [
-            {
-              "node.name" = "~alsa_output.*";
-            }
-          ];
-
-          actions = {
-            "update-props" = {
-              "api.alsa.period-size" = 512;
-              "api.alsa.headroom" = 1024;
-              "api.alsa.disable-tsched" = true;
-            };
-          };
-        }
-      ];
-    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -203,7 +176,6 @@
   # For managing tools with UV.
   programs.nix-ld.enable = true;
 
-  virtualisation.vmware.guest.enable = true;
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = false;
   zramSwap.enable = true;
