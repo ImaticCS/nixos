@@ -6,7 +6,6 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -34,7 +33,6 @@
       home-manager,
       plasma-manager,
       mpv-src,
-      nix-cachyos-kernel,
       ...
     }:
     let
@@ -53,7 +51,7 @@
         inherit system;
 
         specialArgs = {
-          inherit pkgs-unstable mpv-src nix-cachyos-kernel;
+          inherit pkgs-unstable mpv-src;
         };
 
         modules = [

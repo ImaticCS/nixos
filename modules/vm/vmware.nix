@@ -1,11 +1,19 @@
 {
   virtualisation.vmware.guest.enable = true;
 
+  # VMX settings:
+  # pciSound.playBuffer = "20"
+  # sound.bufferTime = "20"
+  # sound.smallBlockSize = "512"
+  # sound.maxLength = "2048"
+  # sound.highPriority = "TRUE"
+
   services.pipewire = {
     extraConfig.pipewire."90-vm-buffer" = {
       "context.properties" = {
-        "default.clock.quantum" = 256;
-        "default.clock.min-quantum" = 256;
+        "default.clock.rate" = 48000;
+        "default.clock.quantum" = 128;
+        "default.clock.min-quantum" = 128;
         "default.clock.max-quantum" = 512;
       };
     };
@@ -22,7 +30,7 @@
           actions = {
             "update-props" = {
               "api.alsa.period-size" = 512;
-              "api.alsa.headroom" = 1024;
+              "api.alsa.headroom" = 512;
               "api.alsa.disable-tsched" = true;
             };
           };
