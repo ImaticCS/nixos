@@ -27,7 +27,7 @@
       theme = "breeze-dark";
 
       # Colour scheme and icons
-      colorScheme = "KlassyDark";
+      colorScheme = "Twilight";
       iconTheme = "klassy-dark";
     };
 
@@ -70,8 +70,8 @@
         };
 
         TitleBarOpacity = {
-          ActiveTitleBarOpacity = 85;
-          InactiveTitleBarOpacity = 70;
+          ActiveTitleBarOpacity = 80;
+          InactiveTitleBarOpacity = 64;
         };
 
         Windeco = {
@@ -82,7 +82,7 @@
         };
 
         WindowOutlineStyle = {
-          WindowOutlineAccentColorOpacityActive = 40;
+          WindowOutlineAccentColorOpacityActive = 30;
           WindowOutlineStyleActive = "WindowOutlineAccentColor";
         };
       };
