@@ -14,15 +14,78 @@
 
   home.packages = with pkgs; [
     htop
-    klassy
     fastfetch
   ];
 
   programs.plasma = {
     enable = true;
 
-    #workspace = {
-    #  lookAndFeel = "org.kde.breeze.desktop";
-    #};
+    workspace = {
+      lookAndFeel = "org.kde.breezedark.desktop";
+
+      # Plasma Style
+      theme = "breeze-dark";
+
+      # Colour scheme and icons
+      colorScheme = "KlassyDark";
+      iconTheme = "klassy-dark";
+    };
+
+    kwin.effects.translucency.enable = true;
+
+    configFile = {
+      kdeglobals = {
+        KDE = {
+          widgetStyle = "Klassy";
+        };
+
+        General = {
+          AccentColor = {
+            value = "56,163,165";
+          };
+        };
+      };
+
+      kwinrc = {
+        "org.kde.kdecoration2" = {
+          library = "org.kde.klassy";
+          theme = "Klassy";
+
+          BorderSize = "Normal";
+          BorderSizeAuto = false;
+          ButtonsOnLeft = "MFS";
+          ButtonsOnRight = "HIAX";
+        };
+
+        "Effect-translucency" = {
+          IndividualMenuConfig = true;
+          PopupMenus = 94;
+        };
+      };
+
+      "klassy/klassyrc" = {
+        Global = {
+          LookAndFeelSet = "org.kde.breezedark.desktop";
+          RefreshedConfig = "6.5.3";
+        };
+
+        TitleBarOpacity = {
+          ActiveTitleBarOpacity = 85;
+          InactiveTitleBarOpacity = 70;
+        };
+
+        Windeco = {
+          ButtonIconStyle = "StyleFluent";
+          ColorizeWindowOutlineWithButton = false;
+          DrawTitleBarSeparator = false;
+          WindowCornerRadius = 12;
+        };
+
+        WindowOutlineStyle = {
+          WindowOutlineAccentColorOpacityActive = 40;
+          WindowOutlineStyleActive = "WindowOutlineAccentColor";
+        };
+      };
+    };
   };
 }
