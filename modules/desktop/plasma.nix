@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   services.xserver.enable = true;
@@ -12,7 +12,8 @@
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
-    klassy
+    #klassy
+    #pkgs-unstable.plasma-panel-colorizer
   ];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [

@@ -19,7 +19,7 @@
 
   programs.plasma = {
     enable = true;
-
+/*
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
 
@@ -27,7 +27,7 @@
       theme = "breeze-dark";
 
       # Colour scheme and icons
-      colorScheme = "Twilight";
+      colorScheme = "KlassyDark";
       iconTheme = "klassy-dark";
     };
 
@@ -87,5 +87,6 @@
         };
       };
     };
+*/
   };
 }
