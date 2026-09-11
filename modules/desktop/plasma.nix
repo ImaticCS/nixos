@@ -12,7 +12,8 @@
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = with pkgs; [
-    #klassy
+    #kdePackages.qtstyleplugin-kvantum
+    klassy
     #pkgs-unstable.plasma-panel-colorizer
   ];
 
