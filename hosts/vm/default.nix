@@ -56,6 +56,7 @@
     nix-prefetch-github
     jq
     pipx
+    #faugus-launcher
   ];
 
   # Necessary exception for Sublime Text
