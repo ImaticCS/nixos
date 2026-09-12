@@ -17,6 +17,9 @@
     fastfetch
   ];
 
+  xdg.configFile."klassy/klassyrc".source =
+  ./dotfiles/klassy/klassyrc;
+
   programs.plasma = {
     enable = true;
 
@@ -59,12 +62,12 @@
           PopupMenus = 94;
         };
       };
-
+/*
       "klassy/klassyrc" = {
         Global = {
           #LookAndFeelSet = "org.kde.breezedark.desktop";
           LookAndFeelSet = "org.kde.klassykitedarkbottompanel.desktop";
-          RefreshedConfig = "6.5.3";
+          #RefreshedConfig = "6.5.3";
         };
 
         TitleBarOpacity = {
@@ -84,6 +87,7 @@
           WindowOutlineStyleActive = "WindowOutlineAccentColor";
         };
       };
+*/
     };
   };
 }
