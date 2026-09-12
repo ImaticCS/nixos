@@ -62,7 +62,8 @@
 
       "klassy/klassyrc" = {
         Global = {
-          LookAndFeelSet = "org.kde.breezedark.desktop";
+          #LookAndFeelSet = "org.kde.breezedark.desktop";
+          LookAndFeelSet = "org.kde.klassykitedarkbottompanel.desktop";
           RefreshedConfig = "6.5.3";
         };
 
