@@ -1,0 +1,17 @@
+[Global]
+LookAndFeelSet=org.kde.klassykitedarkbottompanel.desktop
+RefreshedConfig=6.5.3
+
+[TitleBarOpacity]
+ActiveTitleBarOpacity=80
+InactiveTitleBarOpacity=64
+
+[Windeco]
+ButtonIconStyle=StyleFluent
+ColorizeWindowOutlineWithButton=false
+DrawTitleBarSeparator=false
+WindowCornerRadius=12
+
+[WindowOutlineStyle]
+WindowOutlineAccentColorOpacityActive=30
+WindowOutlineStyleActive=WindowOutlineAccentColor
