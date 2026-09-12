@@ -21,7 +21,8 @@
     enable = true;
 
     workspace = {
-      lookAndFeel = "org.kde.breezedark.desktop";
+      #lookAndFeel = "org.kde.breezedark.desktop";
+      # org.kde.klassykitedarkbottompanel.desktop
 
       # Plasma Style
       theme = "breeze-dark";
@@ -35,14 +36,10 @@
 
     configFile = {
       kdeglobals = {
-        KDE = {
-          widgetStyle = "Klassy";
-        };
-
-        General = {
-          AccentColor = {
-            value = "56,163,165";
-          };
+        KDE.widgetStyle = "Klassy";
+        
+        General.AccentColor = {
+          value = "56,163,165";
         };
       };
 
