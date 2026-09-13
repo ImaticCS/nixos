@@ -10,17 +10,29 @@ Examples:
   update-overlay.sh faugus-launcher 2.3.0
   update-overlay.sh foo 1.4.1
   update-overlay.sh mpv-git 0123456789abcdef0123456789abcdef01234567
+  update-overlay.sh yt-dlp-nightly 2026.09.10.123456
+  update-overlay.sh yt-dlp-nightly latest
 
 Package metadata format:
   [name]="owner:repo:ref_type:tag_prefix:overlay_file"
 
 ref_type:
-  tag  - version is a release version; Git ref is tag_prefix + version
-  rev  - version is passed directly as the Git revision
+  tag            - version is a release version; Git ref is tag_prefix + version.
+                   Hash is computed from the repo's source tree (nix-prefetch-github).
+  rev            - version is passed directly as the Git revision.
+                   Hash is computed from the repo's source tree (nix-prefetch-github).
+  release-asset  - version is a GitHub release tag (used verbatim, no prefix).
+                   Hash is computed from a release asset file, not the repo tree.
+                   The tag_prefix field is repurposed as the asset filename.
 
 tag_prefix:
   Empty for tags like 1.2.3
   v for tags like v1.2.3
+  For release-asset packages: the release asset filename instead (e.g. foo_linux.zip)
+
+version:
+  Pass "latest" (case-insensitive) instead of an explicit version to resolve
+  the repo's current GitHub "latest release" tag automatically.
 EOF
 }
 
@@ -51,6 +63,10 @@ declare -A packages=(
 
   # Example: pass a commit SHA, branch, or arbitrary Git ref directly.
   # [some-git-package]="some-owner:some-repo:rev::$overlay_dir/some-git-package.nix"
+
+  # Hash comes from the yt-dlp_linux.zip release asset itself, not the
+  # yt-dlp-nightly-builds repo tree (that repo doesn't contain the binary).
+  [yt-dlp-nightly]="yt-dlp:yt-dlp-nightly-builds:release-asset:yt-dlp_linux.zip:$overlay_dir/yt-dlp-nightly.nix"
 )
 
 metadata="${packages[$package]:-}"
@@ -73,6 +89,27 @@ IFS=: read -r owner repo ref_type tag_prefix file <<< "$metadata"
   exit 1
 }
 
+if [[ "${version,,}" == "latest" ]]; then
+  resolved_version="$(
+    curl -sfL "https://api.github.com/repos/$owner/$repo/releases/latest" |
+      jq -er '.tag_name'
+  )"
+
+  current_version="$(
+    sed -n 's/^[[:space:]]*version = "\([^"]*\)";/\1/p' "$file"
+  )"
+
+  printf 'Resolved latest release for %s/%s: %s\n' \
+    "$owner" "$repo" "$resolved_version" >&2
+
+  if [[ "$resolved_version" == "$current_version" ]]; then
+    printf 'Already at latest version (%s); no download needed.\n' "$resolved_version"
+    exit 0
+  fi
+
+  version="$resolved_version"
+fi
+
 case "$ref_type" in
   tag)
     git_ref="${tag_prefix}${version}"
@@ -80,8 +117,18 @@ case "$ref_type" in
   rev)
     git_ref="$version"
     ;;
+  release-asset)
+    # Nightly-style tags (timestamps, etc.) are used as-is; no prefix concept.
+    git_ref="$version"
+    asset_name="$tag_prefix"
+    [[ -n "$asset_name" ]] || {
+      printf 'release-asset packages need an asset filename in the tag_prefix field for %s\n' \
+        "$package" >&2
+      exit 1
+    }
+    ;;
   *)
-    printf 'Invalid ref_type for %s: %s (expected tag or rev)\n' \
+    printf 'Invalid ref_type for %s: %s (expected tag, rev, or release-asset)\n' \
       "$package" "$ref_type" >&2
     exit 1
     ;;
@@ -107,10 +154,35 @@ hash_matches="$(
   exit 1
 }
 
-hash="$(
-  nix-prefetch-github "$owner" "$repo" --rev "$git_ref" |
-    jq -er '.hash'
-)"
+# Hashes a local file as a fixed-output-derivation source would see it,
+# preferring the modern `nix hash file`, falling back to nix-prefetch-url
+# (older nix-command, or nix-command not enabled).
+hash_of_fetchzip_asset() {
+  local url="$1"
+  local base32_hash
+
+  base32_hash="$(nix-prefetch-url --unpack --type sha256 "$url")"
+
+  nix --extra-experimental-features nix-command \
+    hash convert --hash-algo sha256 --to sri "$base32_hash"
+}
+
+tmp_asset=""
+tmp=""
+trap 'rm -f "${tmp_asset:-}" "${tmp:-}"' EXIT
+
+case "$ref_type" in
+  tag | rev)
+    hash="$(
+      nix-prefetch-github "$owner" "$repo" --rev "$git_ref" |
+        jq -er '.hash'
+    )"
+    ;;
+  release-asset)
+    download_url="https://github.com/$owner/$repo/releases/download/$git_ref/$asset_name"
+    hash="$(hash_of_fetchzip_asset "$download_url")"
+    ;;
+esac
 
 [[ "$hash" =~ ^sha256-[A-Za-z0-9+/]+={0,2}$ ]] || {
   printf 'Invalid hash returned for %s/%s at ref %s:\n%s\n' \
@@ -119,7 +191,6 @@ hash="$(
 }
 
 tmp="$(mktemp)"
-trap 'rm -f "$tmp"' EXIT
 
 sed \
   -e "s/version = \"[^\"]*\";/version = \"$version\";/" \
