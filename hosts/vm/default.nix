@@ -35,6 +35,7 @@
     (import ../../overlays/mpv-git.nix pkgs-unstable mpv-src)
     (import ../../overlays/faugus-launcher.nix pkgs-unstable)
     (import ../../overlays/pipx.nix)
+    (import ../../overlays/yt-dlp-nightly.nix)
   ];
 
   environment.systemPackages = with pkgs; [
@@ -57,6 +58,7 @@
     jq
     pipx
     #faugus-launcher
+    yt-dlp-nightly
   ];
 
   # Necessary exception for Sublime Text

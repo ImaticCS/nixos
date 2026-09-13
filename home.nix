@@ -1,4 +1,4 @@
-{ pkgs, plasma-manager, ... }:
+{ pkgs, plasma-manager, lib, ... }:
 
 {
   imports = [
@@ -16,7 +16,28 @@
     htop
     fastfetch
   ];
+/*
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
 
+  home.activation.installYtDlpNightly =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -x "$HOME/.local/bin/yt-dlp" ]; then
+        mkdir -p "$HOME/.local/bin"
+
+        tmp="$HOME/.local/bin/yt-dlp.tmp"
+        trap 'rm -f "$tmp"' EXIT
+
+        ${pkgs.curl}/bin/curl -fL \
+          https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp_linux \
+          -o "$tmp"
+
+        chmod +x "$tmp"
+        mv "$tmp" "$HOME/.local/bin/yt-dlp"
+      fi
+    '';
+*/
   #xdg.configFile."klassy/klassyrc" = {
   #  source = ./dotfiles/klassy/klassyrc;
   #  force = true;

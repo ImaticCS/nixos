@@ -36,7 +36,7 @@
 
   environment.localBinInPath = true;
 
-  #programs.nix-ld.enable = true;
+  programs.nix-ld.enable = true;
 
   zramSwap.enable = true;
 
