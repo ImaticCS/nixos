@@ -17,8 +17,10 @@
     fastfetch
   ];
 
-  xdg.configFile."klassy/klassyrc".source =
-  ./dotfiles/klassy/klassyrc;
+  #xdg.configFile."klassy/klassyrc" = {
+  #  source = ./dotfiles/klassy/klassyrc;
+  #  force = true;
+  #};
 
   programs.plasma = {
     enable = true;
@@ -40,7 +42,7 @@
     configFile = {
       kdeglobals = {
         KDE.widgetStyle = "Klassy";
-        
+
         General.AccentColor = {
           value = "56,163,165";
         };
@@ -62,32 +64,32 @@
           PopupMenus = 94;
         };
       };
-/*
-      "klassy/klassyrc" = {
-        Global = {
-          #LookAndFeelSet = "org.kde.breezedark.desktop";
-          LookAndFeelSet = "org.kde.klassykitedarkbottompanel.desktop";
-          #RefreshedConfig = "6.5.3";
-        };
+      /*
+            "klassy/klassyrc" = {
+              Global = {
+                #LookAndFeelSet = "org.kde.breezedark.desktop";
+                LookAndFeelSet = "org.kde.klassykitedarkbottompanel.desktop";
+                #RefreshedConfig = "6.5.3";
+              };
 
-        TitleBarOpacity = {
-          ActiveTitleBarOpacity = 80;
-          InactiveTitleBarOpacity = 64;
-        };
+              TitleBarOpacity = {
+                ActiveTitleBarOpacity = 80;
+                InactiveTitleBarOpacity = 64;
+              };
 
-        Windeco = {
-          ButtonIconStyle = "StyleFluent";
-          ColorizeWindowOutlineWithButton = false;
-          DrawTitleBarSeparator = false;
-          WindowCornerRadius = 12;
-        };
+              Windeco = {
+                ButtonIconStyle = "StyleFluent";
+                ColorizeWindowOutlineWithButton = false;
+                DrawTitleBarSeparator = false;
+                WindowCornerRadius = 12;
+              };
 
-        WindowOutlineStyle = {
-          WindowOutlineAccentColorOpacityActive = 30;
-          WindowOutlineStyleActive = "WindowOutlineAccentColor";
-        };
-      };
-*/
+              WindowOutlineStyle = {
+                WindowOutlineAccentColorOpacityActive = 30;
+                WindowOutlineStyleActive = "WindowOutlineAccentColor";
+              };
+            };
+      */
     };
   };
 }
