@@ -1,7 +1,7 @@
 {
   virtualisation.vmware.guest.enable = true;
 
-  # VMX settings:
+  # VMX settings (set these in the .vmx file only when VM is turned OFF):
   # pciSound.playBuffer = "20"
   # sound.bufferTime = "20"
   # sound.smallBlockSize = "512"
