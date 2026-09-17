@@ -1,2 +1,7 @@
 result
 result-*
+
+# Editor / temporary files
+*~
+*.swp
+*.swo
