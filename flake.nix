@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -29,7 +27,6 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
-      nix-index-database,
       home-manager,
       plasma-manager,
       mpv-src,
@@ -56,8 +53,7 @@
 
         modules = [
           ./hosts/vm
-
-          nix-index-database.nixosModules.default
+          
           home-manager.nixosModules.home-manager
 
           {
