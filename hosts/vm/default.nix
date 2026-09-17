@@ -16,11 +16,11 @@
     (import ../../overlays/yt-dlp-nightly.nix)
   ];
 
+  networking.hostName = "vm";
+
   # The VM does not need 32-bit graphics support.
   hardware.graphics.enable32Bit = false;
-
-  networking.hostName = "nixos";
-
+  # The VM does not need printing support.
   services.printing.enable = false;
 
   system.stateVersion = "26.05";
