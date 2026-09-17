@@ -1,0 +1,19 @@
+# NixOS configuration
+
+My NixOS configuration managed with flakes and Home Manager.
+
+## Hosts
+
+- `vm` — VMware test machine
+
+## Rebuild
+
+nh os switch --ask ~/nixos -H vm
+
+## Structure
+
+- `hosts/` — host-specific configuration
+- `modules/` — reusable system modules
+- `overlays/` — package overrides/custom packages
+- `scripts/` — maintenance scripts
+- `home.nix` — Home Manager configuration
