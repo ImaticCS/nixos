@@ -59,6 +59,7 @@
     pipx
     #faugus-launcher
     yt-dlp-nightly
+    tmux
   ];
 
   # Necessary exception for Sublime Text
